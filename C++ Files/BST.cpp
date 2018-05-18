@@ -39,5 +39,6 @@ int main() {
 	root = insert_node(root,10);
 	root = insert_node(root,20);
 	root = insert_node(root,11);
+	root = insert_node(root,21);
 	return 0;
 }
