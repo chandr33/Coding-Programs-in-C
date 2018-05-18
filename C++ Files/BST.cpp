@@ -37,5 +37,6 @@ int main() {
 	struct BST * root = NULL;//Create a new BST Node
 	root = insert_node(root,15);
 	root = insert_node(root,10);
+	root = insert_node(root,20);
 	return 0;
 }
