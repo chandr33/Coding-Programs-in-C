@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 
 using namespace std;
 
@@ -6,6 +7,11 @@ struct BST {
 	int data;
 	struct BST * left;
 	struct BST * right;
+};
+
+struct qNode {
+	int depth;
+	struct BST * treeNode;
 };
 
 struct BST * ret_newNode(int data) {
@@ -95,6 +101,43 @@ int find_min_depth(struct BST * root) {
 	return (left_depth > right_depth) ? right_depth : left_depth;
 }
 
+int iterative_min_depth(struct BST * root) {
+	if(root == NULL)//If tree is empty
+		return 0;
+	queue<qNode> q;//Create a queue with each tree node's depth and pointer to next tree node
+	qNode node;
+	node.depth = 1;
+	node.treeNode = root;
+	q.push(node);
+	while(q.empty() == false) {
+		node = q.front();//Save the front node
+		q.pop();//Pop
+		struct BST * current_node = node.treeNode;
+		if ((current_node -> right == NULL) && (current_node -> left == NULL))//If the leaf node has been reached
+			return node.depth;
+
+		int depth = node.depth;
+
+		if (current_node -> left != NULL)
+		{
+			qNode newLeft;
+			newLeft.treeNode = current_node -> left;
+			newLeft.depth = depth + 1;
+			q.push(newLeft);
+		}
+		if (current_node -> right != NULL)
+		{
+			qNode newRight;
+			newRight.treeNode = current_node -> right;
+			newRight.depth = depth + 1;
+			q.push(newRight);			
+		}
+	}
+	return 0;
+
+}
+
+
 int main() {
 	struct BST * root = NULL;//Create a new BST Node
 	root = insert_node(root,15);
@@ -103,10 +146,10 @@ int main() {
 	root = insert_node(root,9);
 	root = insert_node(root,11);
 	root = insert_node(root,19);
-	root = insert_node(root,21);
+	//root = insert_node(root,21);
 	//root = remove(root,100);
 	//print_inorder(root);
-	int minimum = find_min_depth(root);
+	int minimum = iterative_min_depth(root);
 	cout<<minimum<<" ";
 	return 0;
 }
