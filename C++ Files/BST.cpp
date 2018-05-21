@@ -138,7 +138,7 @@ int iterative_min_depth(struct BST * root) {
 }
 
 int MaxSum_util(struct BST * root,int * maxSum) {
-	if (root == NULL) //If reached a leaf node then return with the node's value
+	if (root == NULL)
 		return 0;
 	int leftPathSum = MaxSum_util(root -> left,maxSum);
 	int rightPathSum = MaxSum_util(root -> right,maxSum);
