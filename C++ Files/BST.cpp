@@ -137,6 +137,22 @@ int iterative_min_depth(struct BST * root) {
 
 }
 
+int MaxSum_util(struct BST * root,int * maxSum) {
+	if (root == NULL) //If reached a leaf node then return with the node's value
+		return 0;
+	int leftPathSum = MaxSum_util(root -> left,maxSum);
+	int rightPathSum = MaxSum_util(root -> right,maxSum);
+	int temp = max(root -> data,max(leftPathSum,rightPathSum) + root -> data);
+	int temp2 = max(temp,root -> data + rightPathSum + leftPathSum);
+	*maxSum = max(temp2,*maxSum);
+	return temp;
+}
+
+int MaxSumPath(struct BST * root) {
+	int maxSum = 0;
+	MaxSum_util(root,&maxSum);
+	return maxSum;
+}
 
 int main() {
 	struct BST * root = NULL;//Create a new BST Node
@@ -146,10 +162,7 @@ int main() {
 	root = insert_node(root,9);
 	root = insert_node(root,11);
 	root = insert_node(root,19);
-	//root = insert_node(root,21);
-	//root = remove(root,100);
-	//print_inorder(root);
-	int minimum = iterative_min_depth(root);
-	cout<<minimum<<" ";
+	root = insert_node(root,21);
+	int result = MaxSumPath(root);
 	return 0;
 }
