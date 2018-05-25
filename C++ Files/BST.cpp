@@ -1,6 +1,6 @@
 #include <iostream>
 #include <queue>
-
+#include <stack>
 using namespace std;
 
 struct BST {
@@ -154,10 +154,10 @@ int MaxSumPath(struct BST * root) {
 	return maxSum;
 }
 
-void isPreOrder_util(int * arr, int i, int j, bool * val) {
+/*void isPreOrder_left(int * arr, int i, int j, bool * val) {
 	if (i > j)
 		return;
-	isPreOrder_util(arr,i+1,j-1,val);
+	isPreOrder_left(arr,i+1,j-1,val);
 	if (arr[i] > arr[j])
 		*val = false;
 }
@@ -171,14 +171,31 @@ bool isPreOrder(int * arr, int size) {
 		if (arr[j] > first)
 			break;
 	}
-	isPreOrder_util(arr,i,j,&val1);//Checks for the pre-order arrangement for the first half
-	if (j != size - 1)//If there is any element in the second half
-		isPreOrder_util(arr,j,size-1,&val2);
+	isPreOrder_left(arr,i,j,&val1);
+	isPreOrder_left(arr,j+1,size-1,&val1);
 	return (val1 && val2);
-}
+}*/
 
+bool isPreOrder(int * pre, int n)
+{
+	stack<int> s;
+	int root = INT_MIN;
+	for (int i = 0; i < n; i++)
+	{
+		if (pre[i] < root)
+			return false;
+
+		while((s.empty() != true) && (s.top() < pre[i])) {
+			root = s.top();
+			s.pop();
+		}
+		s.push(pre[i]);
+	}
+
+ 	return true;   
+}
 int main() {
-	int arr1[] = {40,30,35,20,80,100};
+	int arr1[] = {40,30,20,35,80,100};
 	int n = sizeof(arr1)/sizeof(int);
 	bool result = isPreOrder(arr1,n);
 	cout<<result<<endl;
