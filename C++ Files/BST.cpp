@@ -1,6 +1,6 @@
 #include <iostream>
 #include <queue>
-
+#include <stack>
 using namespace std;
 
 struct BST {
@@ -154,15 +154,50 @@ int MaxSumPath(struct BST * root) {
 	return maxSum;
 }
 
+/*void isPreOrder_left(int * arr, int i, int j, bool * val) {
+	if (i > j)
+		return;
+	isPreOrder_left(arr,i+1,j-1,val);
+	if (arr[i] > arr[j])
+		*val = false;
+}
+
+bool isPreOrder(int * arr, int size) {
+	int first = arr[0];
+	int i = 0;
+	int j;
+	bool val1 = true,val2 = true;
+	for (j = 1; j < size; j++) {//Finds the fist instance where the array element is greater than the first element
+		if (arr[j] > first)
+			break;
+	}
+	isPreOrder_left(arr,i,j,&val1);
+	isPreOrder_left(arr,j+1,size-1,&val1);
+	return (val1 && val2);
+}*/
+
+bool isPreOrder(int * pre, int n)
+{
+	stack<int> s;
+	int root = INT_MIN;
+	for (int i = 0; i < n; i++)
+	{
+		if (pre[i] < root)
+			return false;
+
+		while((s.empty() != true) && (s.top() < pre[i])) {
+			root = s.top();
+			s.pop();
+		}
+		s.push(pre[i]);
+	}
+
+ 	return true;   
+}
 int main() {
-	struct BST * root = NULL;//Create a new BST Node
-	root = insert_node(root,15);
-	root = insert_node(root,10);
-	root = insert_node(root,20);
-	root = insert_node(root,9);
-	root = insert_node(root,11);
-	root = insert_node(root,19);
-	root = insert_node(root,21);
-	int result = MaxSumPath(root);
+	int arr1[] = {40,30,20,35,80,100};
+	int n = sizeof(arr1)/sizeof(int);
+	bool result = isPreOrder(arr1,n);
+	cout<<result<<endl;
 	return 0;
 }
