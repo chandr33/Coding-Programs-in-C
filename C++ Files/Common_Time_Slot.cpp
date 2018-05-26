@@ -24,7 +24,7 @@ vector<int> meetingPlanner( const vector<vector<int>>& slotsA, const vector<vect
 				bool starting = (*col_A >= *col_B) ? true : false;
 				if (!starting)
 				{
-					if ((starting + dur) <= *(col_A+1)) {
+					if ((*col_B + dur) <= *(col_A+1)) {
 						found = 1;
 						common_time.push_back(*col_B);
 						common_time.push_back((*col_B + dur));
