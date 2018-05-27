@@ -17,7 +17,9 @@ struct BST * newNode(int data) {
 	new_node -> left = NULL;
 	return new_node;
 }
+
 void iterative_post_order(struct BST * root) {
+	cout<<"--------------------Post-Order-Traversal-------------------------\n"<<endl;
 	stack<struct BST *> s;//Initialize the stack
 	while (s.empty() != true || root != NULL) {//Run the while loop till its not empty or you reached the end of left sub-tree
 		if (root != NULL) {
@@ -40,8 +42,31 @@ void iterative_post_order(struct BST * root) {
 				root = right_node;
 		}
 	}
-	cout<<endl;
+	cout<<"\n"<<endl;
 }
+
+void iterative_pre_order(struct BST * root) {
+	cout<<"--------------------Pre-Order-Traversal-------------------------\n"<<endl;
+	stack<struct BST *> s; //Initialize the stack
+	while (s.empty() != true || root != NULL) {
+		if (root != NULL) {
+			if(root -> right != NULL)
+				s.push(root->right);
+			cout<<root -> data<<" ";
+			root = root -> left;
+		}
+		else {
+			struct BST * temp = s.top();
+			cout<<temp->data<<" ";
+			s.pop();
+			if (temp -> right != NULL)
+				s.push(temp -> right);
+			root = temp -> left;
+		}
+	}
+	cout<<"\n"<<endl;
+}
+
 int main()
 {
 	struct BST * root = NULL;
@@ -55,5 +80,7 @@ int main()
     root->right->right->right = newNode(8);
     root->right->right->right->right = newNode(9);
 	iterative_post_order(root);
+	iterative_pre_order(root);
+	
 	return 0;
 }
