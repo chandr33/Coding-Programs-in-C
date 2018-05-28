@@ -67,6 +67,31 @@ void iterative_pre_order(struct BST * root) {
 	cout<<"\n"<<endl;
 }
 
+void iterative_in_order(struct BST * root) {
+	cout<<"--------------------Pre-Order-Traversal-------------------------\n"<<endl;
+	stack<struct BST *> s;
+	while(s.empty() != true || root != NULL) {
+		if (root != NULL) {
+			s.push(root);
+			root = root -> left;
+		}
+		else {
+			struct BST * temp = s.top() -> right;
+			if (temp == NULL)
+			{
+				temp = s.top();
+				cout<<temp -> data<<" ";
+				s.pop();
+			}
+			else {
+				cout<<s.top() -> data<<" ";
+				s.pop();
+				root = temp;
+			}
+		}
+	}
+	cout<<"\n"<<endl;
+}
 int main()
 {
 	struct BST * root = NULL;
@@ -81,6 +106,6 @@ int main()
     root->right->right->right->right = newNode(9);
 	iterative_post_order(root);
 	iterative_pre_order(root);
-	
+	iterative_in_order(root);
 	return 0;
 }
