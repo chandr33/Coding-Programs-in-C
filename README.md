@@ -1,1 +1,1 @@
-These are programs written in C and C++. Most of them are taken from online sources such as @geeksforgeeks.org and leetocode.com. The main purpose of these programs is to build a strong foundation for algorithms and data structures. 
+These are programs written in C and C++. Most of them are sourced from online sources such as @geeksforgeeks.org and @leetocode.com. The main purpose of these programs is to build a strong foundation for algorithms and data structures. 
