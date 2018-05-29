@@ -63,20 +63,19 @@ int Table_Lookup(Node ** arr, char * key, int index, long * value) {//Function w
 }
 
 int main(int argc, char ** argv) {
-	int size;
+	char key[50];//key
+	long value;//Corresponding value
+	int hashCode,index,size,count = 0;
+	Node * new_node;
+	char option[10];
 	printf("Enter the size of the Hash Table : ");
 	scanf("%d",&size);
 	Node * array[size];//Array of Node pointers
+
 	for (int i = 0; i < size; i++) {//Initialize all the array indices to NULL
 		array[i] = NULL;
 	}
-	char key[50];//key
-	long value;//Corresponding value
-	int hashCode,index;
-	Node * new_node;
-	char option[10];
 
-	int count = 0;
 	while (count < size) {
 		hashCode = 0;
 		index = 0;
@@ -90,9 +89,11 @@ int main(int argc, char ** argv) {
 		insertNode(array,new_node,index);
 		count = count + 1;
 	}
+
 	printf("---------------------------DONE INSERTING IN THE TABLE---------------------------\n");
 	printf("Do you want to search ? [Y/N] : ");
 	scanf("%s",option);
+	
 	if (strcmp(option,"Y") == 0) {//Re-use all the variables from above and search for the key
 		memset(key,0,size*sizeof(key[0]));
 		value = 0;
