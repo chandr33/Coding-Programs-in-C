@@ -68,9 +68,10 @@ int main(int argc, char ** argv) {
 	int hashCode,index,size,count = 0;
 	Node * new_node;
 	char option[10];
+	Node * array[size];//Array of Node pointers
+	
 	printf("Enter the size of the Hash Table : ");
 	scanf("%d",&size);
-	Node * array[size];//Array of Node pointers
 
 	for (int i = 0; i < size; i++) {//Initialize all the array indices to NULL
 		array[i] = NULL;
@@ -93,7 +94,7 @@ int main(int argc, char ** argv) {
 	printf("---------------------------DONE INSERTING IN THE TABLE---------------------------\n");
 	printf("Do you want to search ? [Y/N] : ");
 	scanf("%s",option);
-	
+
 	if (strcmp(option,"Y") == 0) {//Re-use all the variables from above and search for the key
 		memset(key,0,size*sizeof(key[0]));
 		value = 0;
