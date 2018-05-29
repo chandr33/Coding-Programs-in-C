@@ -7,10 +7,9 @@ This is an implementation of Hash Tables using an array of size specified by the
 Each array index will contain the pointer to the head of the linked list. 
 Each linked list will in turn contain the key:value pair and the pointer 
 to the next node of the linked list. Typically the hashing function will 
-take in a string and compute the hash code by summing up the ASCII values 
-of the characters and then returning the ramainder(Hash Code) by taking the
-modulo sum%ArraySize. This concept implements chaining algorithm to take care
-od potential collisions.
+take in a string(Key) and compute the hash code by summing up the ASCII values 
+of the characters. An index will then be created for that particular key (hashCode%size). 
+This concept performs (Closed Addressing) chaining algorithm to take care of potential collisions.
 */
 
 
