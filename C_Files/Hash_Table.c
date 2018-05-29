@@ -32,7 +32,7 @@ int hashFunction(char * key) { //This function will return the hash code (ASCII 
 	int sum = 0;
 	char c;
 	int i = 0;
-	while (i < sizeof(key)) {
+	while (i < strlen(key)) {
 		c = key[i];			
 		sum = sum + c;
 		i++;
@@ -62,6 +62,26 @@ int Table_Lookup(Node ** arr, char * key, int index, long * value) {//Function w
 	return found;
 }
 
+int Delete_Pair(Node ** arr, char * key, int index, long * value) {
+	int found = 0;
+	if (strcmp(arr[index] -> key, key) == 0) {//If first item is to be deleted
+		*value = arr[index] -> value;
+		found = 1;
+		arr[index] -> next = NULL;
+	}
+	else {
+		while((!found) && (arr[index] -> next != NULL)) {
+			if (strcmp(arr[index] -> next -> key, key) == 0) {
+				*value = arr[index] -> next -> value;
+				arr[index] -> next = arr[index] -> next -> next;
+				found = 1;
+			}
+			arr[index] = arr[index] -> next;
+		}
+	}
+	return found;
+}
+
 int main(int argc, char ** argv) {
 	char key[50];//key
 	long value;//Corresponding value
@@ -80,7 +100,7 @@ int main(int argc, char ** argv) {
 	while (count < size) {
 		hashCode = 0;
 		index = 0;
-		printf("Enter the %d key : ", count+1);
+		printf("Enter key(Name) %d: ", count+1);
 		scanf("%s",key);
 		printf("Enter the Corresponding Value(DOB) : ");
 		scanf("%ld",&value);
@@ -92,10 +112,10 @@ int main(int argc, char ** argv) {
 	}
 
 	printf("---------------------------DONE INSERTING IN THE TABLE---------------------------\n");
-	printf("Do you want to search ? [Y/N] : ");
+	printf("Do you want to Search or Delete ? [S/D] : ");
 	scanf("%s",option);
 
-	if (strcmp(option,"Y") == 0) {//Re-use all the variables from above and search for the key
+	if (strcmp(option,"S") == 0) {//Re-use all the variables from above and search for the key
 		memset(key,0,size*sizeof(key[0]));
 		value = 0;
 		hashCode = 0;
@@ -106,6 +126,20 @@ int main(int argc, char ** argv) {
 		index = hashCode%size;
 		if (Table_Lookup(array,key,index,&value))
 			printf("The Value to Your Key is : %ld\n", value);
+		else
+			printf("The key that you entered could not be located in the table\n");
+	}
+	else if (strcmp(option,"D") == 0) {
+		memset(key,0,size*sizeof(key[0]));
+		value = 0;
+		hashCode = 0;
+		index = 0;
+		printf("Enter the key : ");
+		scanf("%s",key);
+		hashCode = hashFunction(key);
+		index = hashCode%size;
+		if (Delete_Pair(array,key,index,&value))
+			printf("The deleted pair is (Key : %s and Value : %ld) \n", key,value);
 		else
 			printf("The key that you entered could not be located in the table\n");
 	}
