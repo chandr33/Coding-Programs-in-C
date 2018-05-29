@@ -3,7 +3,7 @@
 #include <string.h>
 
 /* 
-This is an implementation of Hash Tables using an array of size 5. 
+This is an implementation of Hash Tables using an array of size specified by the user. 
 Each array index will contain the pointer to the head of the linked list. 
 Each linked list will in turn contain the key:value pair and the pointer 
 to the next node of the linked list. Typically the hashing function will 
