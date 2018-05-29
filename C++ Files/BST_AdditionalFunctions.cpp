@@ -30,7 +30,7 @@ bool isCompleteTree(Node * root) {
 		right_child = isCompleteTree(root -> right);
 	else
 		right_child = false;
-	return (left_child == right_child);
+	return (left_child == right_child);//XNOR
 }
 
 int main() {
