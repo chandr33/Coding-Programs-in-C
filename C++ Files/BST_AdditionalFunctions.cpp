@@ -119,6 +119,32 @@ void topView(Node * root) {
 	}
 	cout<<endl;
 }
+void print_In_Order(Node * root) {
+	if (root == NULL)
+		return;
+	print_In_Order(root -> left);
+	cout<<root -> key<<" ";
+	print_In_Order(root -> right);
+}
+
+Node * Delete_Shortest_Path_util(Node * root, int left_depth, int right_depth,int k) {
+	if (root == NULL)
+		return root;
+	root -> left = Delete_Shortest_Path_util(root -> left,left_depth-1,right_depth,k);
+	root -> right = Delete_Shortest_Path_util(root -> right,left_depth,right_depth-1,k);
+	if ((root -> left == NULL) && (root -> right == NULL)) {
+		if ((left_depth+right_depth) >= k)
+			return NULL;
+	}
+	return root;
+}
+
+//Function that deletes the shorter path than k, and returns the root node
+Node * Delete_Shortest_Path(Node * root, int k) {
+	int left_depth = k-1;
+	int right_depth = k-1;
+	return Delete_Shortest_Path_util(root,left_depth,right_depth,k);
+}
 
 int main() {
 	Node * root = NULL;
@@ -127,8 +153,13 @@ int main() {
     root->right = newNode(3);
     root->left->left = newNode(4);
     root->left->right = newNode(5);
-    root->right->left = newNode(6);
-    root->right->right = newNode(7);
-	topView(root);
+    root->left->left->left = newNode(7);
+    root->right->right = newNode(6);
+    root->right->right->left = newNode(8);
+    print_In_Order(root);
+    cout<<endl;
+    int k = 5;
+	Delete_Shortest_Path(root,k);
+	print_In_Order(root);
 	return 0;
 }
