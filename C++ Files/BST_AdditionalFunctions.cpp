@@ -146,20 +146,40 @@ Node * Delete_Shortest_Path(Node * root, int k) {
 	return Delete_Shortest_Path_util(root,left_depth,right_depth,k);
 }
 
+void LowestCommonAncestor_util(Node * root, int num1, int num2, int * result) {
+	if (num1 == root -> key)
+		return;
+	if (num1 < root -> key)
+		LowestCommonAncestor_util(root -> left,num1,num2,result);
+	else if (num1 > root -> key)
+		LowestCommonAncestor_util(root -> right,num1,num2,result);
+	
+	if (root -> key == num2)
+		*result = num2;
+	else if (root -> right != NULL){
+		if (root -> right -> key == num2)
+			*result = root -> key;
+	}
+	else if (root -> left != NULL){
+		if (root -> left -> key == num2)
+			*result = root -> key;
+	}
+}
+//Returns the Lowest Common Ancestor of the given nodes
+int LowestCommonAncestor(Node * root,int num1,int num2) {
+	int lca = 0;
+	LowestCommonAncestor_util(root,num1,num2,&lca);
+	return lca;
+}
+
 int main() {
 	Node * root = NULL;
-	root = newNode(1);
-    root->left = newNode(2);
-    root->right = newNode(3);
+	root = newNode(20);
+	root->left = newNode(8);
+    root->right = newNode(22);
     root->left->left = newNode(4);
-    root->left->right = newNode(5);
-    root->left->left->left = newNode(7);
-    root->right->right = newNode(6);
-    root->right->right->left = newNode(8);
-    print_In_Order(root);
-    cout<<endl;
-    int k = 5;
-	Delete_Shortest_Path(root,k);
-	print_In_Order(root);
+    root->left->right = newNode(12);
+    root->left->right->left = newNode(10);
+    root->left->right->right = newNode(14);
 	return 0;
 }
