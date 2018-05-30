@@ -2,6 +2,7 @@
 #include <queue>
 #include <stack>
 #include <map>
+#include <utility>
 
 using namespace std;
 
@@ -38,7 +39,7 @@ bool isCompleteTree(Node * root) {
 		right_child = false;
 	return (left_child == right_child);//XNOR
 }
-
+//Prints the bottom view of a binary tree
 void BottomViewofTree(Node * root) {
 	if (root == NULL) {
 		cout<<"Tree is empty"<<endl;
@@ -83,18 +84,51 @@ void BottomViewofTree(Node * root) {
 		cout<<i -> second<<" ";
 	cout<<endl;
 }
+//Prints the top view of a binary tree
+void topView(Node * root) {
+	if (root == NULL)
+		return;
+	queue <qnode> q;
+	map <int, int> distance_map;
+	qnode qitem;
+	qitem.distance = 0;
+	qitem.node = root;
+	q.push(qitem);//Pushing the root with depth = 0 and horizontal distance = 0
+	cout<<(qitem.node)->key<<" ";
+	distance_map.insert(pair <int,int> (qitem.distance,(qitem.node)->key));
+	while (!q.empty()) {
+		qitem = q.front();
+		Node * current = qitem.node;
+		q.pop();
+		if (distance_map.find(qitem.distance) == distance_map.end()) {
+			distance_map.insert(pair <int,int> (qitem.distance,(qitem.node)->key));
+			cout<<(qitem.node)->key<<" ";
+		}
+		if (current -> left != NULL) {
+			qnode left_node;
+			left_node.distance = qitem.distance - 1;
+			left_node.node = current -> left;
+			q.push(left_node);	
+		}
+		if (current -> right != NULL) {
+			qnode right_node;
+			right_node.distance = qitem.distance + 1;
+			right_node.node = current -> right;
+			q.push(right_node);
+		}
+	}
+	cout<<endl;
+}
 
 int main() {
 	Node * root = NULL;
-	root = newNode(20);
-	root->left = newNode(8);
-    root->right = newNode(22);
-    root->left->left = newNode(5);
-    root->left->right = newNode(3);
-    root->right->left = newNode(4);
-    root->right->right = newNode(25);
-    root->left->right->left = newNode(10);
-    root->left->right->right = newNode(14);
-	BottomViewofTree(root);
+	root = newNode(1);
+    root->left = newNode(2);
+    root->right = newNode(3);
+    root->left->left = newNode(4);
+    root->left->right = newNode(5);
+    root->right->left = newNode(6);
+    root->right->right = newNode(7);
+	topView(root);
 	return 0;
 }
