@@ -93,6 +93,5 @@ int main() {
     Node *S = newNode('a');
     S->left = newNode('b');
     S->left->left = newNode('c');
-    S->left->left = newNode('d');
-	cout<<isSubTree(S,T)<<endl; 
+    S->left->left = newNode('d'); 
 }
