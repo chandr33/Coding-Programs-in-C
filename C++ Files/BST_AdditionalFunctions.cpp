@@ -165,7 +165,7 @@ void LowestCommonAncestor_util(Node * root, int num1, int num2, int * result) {
 			*result = root -> key;
 	}
 }
-//Returns the Lowest Common Ancestor of the given nodes
+//Returns the Lowest Common Ancestor of the given two nodes
 int LowestCommonAncestor(Node * root,int num1,int num2) {
 	int lca = 0;
 	LowestCommonAncestor_util(root,num1,num2,&lca);
