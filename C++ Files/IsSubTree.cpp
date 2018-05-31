@@ -3,6 +3,13 @@
 #include <string>
 using namespace std;
 
+/* In order to construct a General Binary tree, we need two traversals ,i.e. In-Order and Pre-Order.
+Let's suppose we have N distinct elements. We can have a possible of N! lists out of those elements.
+But for trees we can have 2*N! trees (once with root->left = NULL and then with root->right = NULL).
+Therefore accroding to the Pigeonhole Principle, there is one list which can generate atleast 2 trees.
+On the other hand, for a BST, an In-Order traversal will give us a sorted list so we can use that to construct
+a BST. */
+
 typedef struct TreeNode {
 	char key;
 	struct TreeNode * left,*right;
