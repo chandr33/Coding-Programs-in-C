@@ -130,11 +130,6 @@ int main() {
     T->right->right->right = newNode('f');
  
     Node *S = newNode('d');
-    //S->left = newNode('c');
-    //S->left->left = newNode('c');
     S->right = newNode('e'); 
-    S->right->left = newNode('f');
-
-    cout<<isSubTree(S,T)<<endl;
-    cout<<recursiveSubTree(S,T)<<endl;
+    S->right->right = newNode('f');
 }
