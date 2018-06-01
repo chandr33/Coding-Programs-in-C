@@ -83,15 +83,58 @@ bool isSubTree(Node * S, Node * T) {
 	return strstr(arr_MainPreOrder,arr_SubPreOrder) ? true : false;
 }
 
+bool checkSub(Node * S, Node * T) {
+	bool left,right;
+	if ((S == NULL) && (T == NULL))//If reached the end of both trees simultaneously
+		return true;
+
+	if (S && T) {
+		if (S -> key != T -> key)
+			return false;
+		else {
+			left = checkSub(S -> left,T -> left);
+			right = checkSub(S -> right, T -> right);
+		}
+
+	}
+	else if (!S && T)
+		return true;
+	else
+		return false;
+		
+	return (left && right);
+}
+
+bool recursiveSubTree(Node * S, Node * T) {
+	bool left_subTree,right_subTree;
+	if (S == NULL)//An empty set is a subset of every set
+		return true;
+	if (T == NULL)
+		return false;//No match found
+	if (checkSub(S,T)) 
+		left_subTree = right_subTree = true;
+	else {
+		left_subTree = recursiveSubTree(S,T->left);
+		right_subTree = recursiveSubTree(S,T->right);
+	}
+	return (left_subTree || right_subTree);//Recusively call Left and right Sub-trees
+}
+
+
 int main() {
 	Node *T = newNode('a');
     T->left = newNode('b');
     T->left->left = newNode('c');
     T->right = newNode('d');
     T->right->right = newNode('e');
+    T->right->right->right = newNode('f');
  
-    Node *S = newNode('a');
-    S->left = newNode('b');
-    S->left->left = newNode('c');
-    S->left->left = newNode('d'); 
+    Node *S = newNode('d');
+    //S->left = newNode('c');
+    //S->left->left = newNode('c');
+    S->right = newNode('e'); 
+    S->right->left = newNode('f');
+
+    cout<<isSubTree(S,T)<<endl;
+    cout<<recursiveSubTree(S,T)<<endl;
 }
