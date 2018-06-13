@@ -88,7 +88,35 @@ void Print_Vertical_Order(Node * root) {
 			cout<<(*vec_iterator)->key<<" ";
 		cout<<endl;
 	}
+}
 
+void Print_Spiral_Order(Node * root) {
+	queue<pair<Node*,int>> q;
+	int level = 0;
+	q.push(make_pair(root,level));
+	map<int,vector<Node *>> table;
+	table[level].insert(table[level].begin(),root);
+	while(!q.empty()) {
+		Node * current = q.front().first;
+		if (current -> left)
+			q.push(make_pair(current->left,q.front().second+1));
+		if (current -> right)
+			q.push(make_pair(current->right,q.front().second+1));
+		q.pop();
+		if (!q.empty()) {
+			if (q.front().second % 2 == 1)
+				table[q.front().second].push_back(q.front().first);
+			else
+				table[q.front().second].insert(table[q.front().second].begin(),q.front().first);
+		}
+	}
+	map<int,vector<Node*>> :: iterator table_iterator;
+	vector<Node*> :: iterator vec_iterator;
+	for (table_iterator = table.begin(); table_iterator != table.end(); table_iterator++) {
+		for (vec_iterator = table_iterator->second.begin(); vec_iterator != table_iterator->second.end(); vec_iterator++)
+			cout<<(*vec_iterator)->key<<" ";
+		cout<<endl;
+	}
 }
 int main () {
 	Node * root = NULL;
@@ -99,7 +127,5 @@ int main () {
 	root -> left -> right = newNode(5);
 	root -> right -> left = newNode(6);
 	root -> right -> right = newNode(7);
-	root -> right -> right -> left = newNode(8);
-	root -> right -> right -> right = newNode(9);
-	Print_Vertical_Order(root);
+	Print_Spiral_Order(root);
 }
