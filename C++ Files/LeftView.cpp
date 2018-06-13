@@ -48,16 +48,35 @@ void Print_Left_View (Node * root) {
 		cout<<j->second->key<<endl;
 }
 
+void store_in_array(Node * root, int arr[],int & index) {
+	if (!root)
+		return;
+	store_in_array(root->left,arr,index);
+	arr[index++] = root->key;
+	store_in_array(root->right,arr,index);
+}
+//Store the tree nodes in an array using In-Order traversal and then check if the array is sorted
+bool isBST(Node * root) {
+	int result_array[100];
+	int i = 0;
+	store_in_array(root,result_array,i);
+	for (int j = 0; j < i-1; j++) {
+		if (result_array[j] > result_array[j+1])
+			return false;
+	}
+	return true;
+}
+
 int main () {
 	Node * root = NULL;
 	root = newNode(1);
-	root -> left = newNode(2);
-	root -> right = newNode(3);
-	root -> left -> left = newNode(4);
-	root -> left -> right = newNode(5);
-	root -> right -> left = newNode(6);
+	root -> left = newNode(-5);
+	root -> right = newNode(5);
+	root -> left -> left = newNode(-7);
+	root -> left -> right = newNode(-2);
+	root -> right -> left = newNode(3);
 	root -> right -> right = newNode(7);
-	root -> left -> left -> right = newNode(8);
-
-    Print_Left_View(root);
+	root -> left -> left -> right = newNode(-6);
+	cout<<isBST(root)<<endl;
+    //Print_Left_View(root);
 }
