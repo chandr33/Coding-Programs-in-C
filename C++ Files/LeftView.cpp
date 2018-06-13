@@ -1,7 +1,9 @@
 #include <iostream>
 #include <queue>
+#include <stack>
 #include <map>
 #include <utility>
+#include <vector>
 
 //Traverse through the tree level by level. Add the first node to the hash map according to each level.
 
@@ -67,16 +69,37 @@ bool isBST(Node * root) {
 	return true;
 }
 
+void PreOrderStore(Node * root, int horizontal_depth,map<int,vector<Node*>> & table) {
+	if (!root)
+		return;
+	table[horizontal_depth].push_back(root);
+	PreOrderStore(root->left,horizontal_depth-1,table);
+	PreOrderStore(root->right,horizontal_depth+1,table);
+}
+
+void Print_Vertical_Order(Node * root) {
+	int hd = 0;
+	map<int,vector<Node*>> table;
+	PreOrderStore(root,hd,table);
+	map<int,vector<Node*>> :: iterator table_iterator;
+	vector<Node *> :: iterator vec_iterator;
+	for (table_iterator = table.begin(); table_iterator != table.end(); table_iterator++) {
+		for (vec_iterator = table_iterator->second.begin(); vec_iterator != table_iterator->second.end(); vec_iterator++)
+			cout<<(*vec_iterator)->key<<" ";
+		cout<<endl;
+	}
+
+}
 int main () {
 	Node * root = NULL;
 	root = newNode(1);
-	root -> left = newNode(-5);
-	root -> right = newNode(5);
-	root -> left -> left = newNode(-7);
-	root -> left -> right = newNode(-2);
-	root -> right -> left = newNode(3);
+	root -> left = newNode(2);
+	root -> right = newNode(3);
+	root -> left -> left = newNode(4);
+	root -> left -> right = newNode(5);
+	root -> right -> left = newNode(6);
 	root -> right -> right = newNode(7);
-	root -> left -> left -> right = newNode(-6);
-	cout<<isBST(root)<<endl;
-    //Print_Left_View(root);
+	root -> right -> right -> left = newNode(8);
+	root -> right -> right -> right = newNode(9);
+	Print_Vertical_Order(root);
 }
