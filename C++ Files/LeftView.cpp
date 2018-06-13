@@ -88,10 +88,10 @@ void Print_Vertical_Order(Node * root) {
 	}
 	int hd = 0;
 	map<int,vector<Node*>> table;
-	PreOrderStore(root,hd,table);//Function to the all the nodes of the tree according to their horizontal distance
+	PreOrderStore(root,hd,table);//Function to store all the nodes of the tree according to their horizontal distance
 	map<int,vector<Node*>> :: iterator table_iterator;//key = horizontal distance, value = Tree Node
 	vector<Node *> :: iterator vec_iterator;
-	for (table_iterator = table.begin(); table_iterator != table.end(); table_iterator++) {//Print all tree nodes starting in an ascending order
+	for (table_iterator = table.begin(); table_iterator != table.end(); table_iterator++) {//Print all tree nodes in an ascending order of their horizontal distance
 		for (vec_iterator = table_iterator->second.begin(); vec_iterator != table_iterator->second.end(); vec_iterator++)
 			cout<<(*vec_iterator)->key<<" ";
 		cout<<endl;
@@ -113,7 +113,7 @@ void Print_Spiral_Order(Node * root) {
 			q.push(make_pair(current->left,q.front().second+1));//Add left node of the front node
 		if (current -> right)
 			q.push(make_pair(current->right,q.front().second+1));//Add the right node of the front node
-		q.pop();//Dequeue the fron node
+		q.pop();//Dequeue the front node
 		if (!q.empty()) {
 			if (q.front().second % 2 == 1)//Check if the front node is at an odd level
 				table[q.front().second].push_back(q.front().first);//Append to the table at index(level of tree) i.e. 1->2->3
