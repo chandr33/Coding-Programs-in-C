@@ -84,7 +84,7 @@ int heightOfTree(Tree * root) {
 		return 1;
 
 	left_height = (root -> left) ? heightOfTree(root -> left) + 1 : INT_MIN;//Recursive call to increment the height of the left subtree
-	right_height = (root -> right) ? heightOfTree(root -> right) + 1 : INT_MIN;//Recursive call to increment the height of the left subtree
+	right_height = (root -> right) ? heightOfTree(root -> right) + 1 : INT_MIN;//Recursive call to increment the height of the right subtree
 
 	return max(left_height,right_height);
 }
