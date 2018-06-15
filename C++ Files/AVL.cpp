@@ -68,6 +68,8 @@ Tree * insert_AVL(Tree * root, int data) {
 		root -> left = insert_AVL(root -> left, data);
 	if (root -> key < data)
 		root -> right = insert_AVL(root -> right, data);
+	if (root -> key == data)//Same value not allowed
+		return root;
 
 	root -> height = max(getHeight(root -> left),getHeight(root -> right)) + 1;//Update height of all the ancestors of the newly inserted node
 
@@ -85,6 +87,25 @@ Tree * insert_AVL(Tree * root, int data) {
 	if (balance(root) < -1 && (data < root -> right -> key)) {//Right-Left Case
 		root -> right = rotate_right(root -> right);
 		return rotate_left(root);
+	}
+	return root;
+}
+
+Tree * delete_AVL(Tree * root, int data) {
+	if (!root)//Tree is empty
+		return NULL;
+	if (root -> key > data)//Go Left
+		root -> left = delete_AVL(root -> left, data);
+	if (root -> key < data)
+		root -> right = delete_AVL(root -> right, data);
+	if (root -> key == data) {//This is the node to be deleted
+		if (!root -> left)//One or no child
+			return root -> right;
+		if (!root -> right)
+			return root -> left;
+		//If root to be deleted has 2 child nodes
+		root -> key = root -> right -> key;//Replace the root to be deleted's value with its inorder successor
+		root -> right = delete_AVL(root -> right,root -> right -> key);//Recursively call to delete this inorder successor
 	}
 	return root;
 }
