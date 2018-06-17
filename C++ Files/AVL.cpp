@@ -3,6 +3,12 @@
 
 using namespace std;
 
+/*AVL Tree is a self-balancing BST where the difference between the heights 
+of Left Subtree and Right Subtree cannot be more than 1 for all nodes 
+AVL is more preferred for Search operations as it's height is always O(logn),
+whereas for insertion and deletion Red-Black Trees are preferred as AVL involves
+too many rotations.*/
+
 typedef struct Treenode {
 	int key;
 	Treenode * left;
@@ -35,9 +41,9 @@ int getHeight(Tree * root) {//Returns the height of the node passed
 
 Tree * rotate_right(Tree * x) {//Performs right rotation of parent node with its left child as pivot and updates the
 	Tree * y = x -> left;										//height of the parent node and the left child node
-	Tree * T1 = y -> right;
+	Tree * T2 = y -> right;
 	y -> right = x;
-	x -> left = T1;
+	x -> left = T2;
 	x -> height = max(getHeight(x -> left), getHeight(x -> right)) + 1;
 	y -> height = max(getHeight(y -> left), getHeight(y -> right)) + 1;
 	return y;
@@ -45,9 +51,9 @@ Tree * rotate_right(Tree * x) {//Performs right rotation of parent node with its
 
 Tree * rotate_left(Tree * x) {//Performs left rotation of parent node with its right child as pivot and updates the 
 	Tree * y = x -> right;										//height of the parent node and the right child node
-	Tree * T1 = y -> left;
+	Tree * T2 = y -> left;
 	y -> left = x;
-	x -> right = T1;
+	x -> right = T2;
 	x -> height = max(getHeight(x -> left), getHeight(x -> right)) + 1;
 	y -> height = max(getHeight(y -> left), getHeight(y -> right)) + 1;
 	return y;
@@ -174,7 +180,7 @@ int main() {
   	root = insert_AVL(root, 40);
   	root = insert_AVL(root, 50);
   	root = insert_AVL(root, 25);
-  	cout<<search(root,20)<<endl;
+  	cout<<search(root,50)<<endl;
   	root = delete_AVL(root,20);
   	cout<<search(root,20)<<endl;
 	return 0;
