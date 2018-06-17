@@ -73,21 +73,6 @@ void BToDLL(Tree * root, Tree ** head_ref) {
 		map_iterator++;
 	}
 }
-//Calculates the height of the binary tree
-int heightOfTree(Tree * root) {
-	int left_height,right_height;
-
-	if (!root)//For an empty tree
-		return 0;
-
-	if ((!root->left) && (!root->right))
-		return 1;
-
-	left_height = (root -> left) ? heightOfTree(root -> left) + 1 : INT_MIN;//Recursive call to increment the height of the left subtree
-	right_height = (root -> right) ? heightOfTree(root -> right) + 1 : INT_MIN;//Recursive call to increment the height of the right subtree
-
-	return max(left_height,right_height);
-}
 
 int main() {
 	Tree * root = NULL;
