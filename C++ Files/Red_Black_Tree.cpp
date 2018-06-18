@@ -8,13 +8,12 @@ using namespace std;
 1) Every Node has a color, either Red or Black
 2) Root of tree is always black
 3) There are no two adjacent Red Nodes - # of Black Nodes is at least floor(n/2); n = total nodes
-4)Every path from Root to a NULL has the same # of black nodes - There is a root to leaf path with at most
-																 Log2(n+1) black nodes with n = Total nodes
+4)Every path from Root to a NULL has the same # of black nodes - There is a root to leaf path with at most Log2(n+1) black nodes with n = Total nodes
 Also, n>=2^k - 1, where k is the min. number of nodes from all root to NULL paths
 
 INSERTION - Black Aunt :- Rotation ; Red Aunt :- Color Flip
-Note :- NULL is a black
-Color Flip :- 1) Node is Red (Grandparent) ; If Node is root then change color ot black
+Note :- NULL is black
+Color Flip :- 1) Node is Red (Grandparent) ; If Node is root then change color to black
 			  2) Children are Black (Aunt and Parent)
 
 Rotation :- 4 cases, After rotation
