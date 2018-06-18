@@ -1,4 +1,6 @@
 #include <iostream>
+#include <map>
+#include <utility>
 
 using namespace std;
 
@@ -22,20 +24,20 @@ Rotation :- 4 cases, After rotation
 typedef struct Treenode {
 	int key;
 	int color;//Black = 0; Red = 1
-	int depth;
-	int height;
+	Treenode * parent;
 	Treenode * left;
 	Treenode * right;
 }Tree;
+
+Tree * root = NULL;//Root of the tree
 
 Tree * newNode(int data) {
 	Tree * new_node = new Tree();
 	new_node -> key = data;
 	new_node -> color = 1;
-	new_node -> depth = 1;
-	new_node -> height = 1;
 	new_node -> left = NULL;
 	new_node -> right = NULL;
+	new_node -> parent = NULL;
 	return new_node;
 }
 
@@ -53,136 +55,177 @@ int getColor(Tree * root) {
 	return root -> color;
 }
 
-int getDepth(Tree * root) {
-	if (!root)
-		return 0;
-	return root -> depth;
+Tree * rotate_left(Tree * GrandParent) {
+	//First save all the links that will be manipulated
+	Tree * GreatGrandParent = GrandParent -> parent;
+	Tree * Parent = GrandParent -> right;
+	Tree * T2 = Parent -> left;
+
+	//Set the GreatGrandParent Link
+	if (!GreatGrandParent) //GrandParent is root
+		root = Parent;
+
+	else if (GrandParent == GreatGrandParent -> right)//Right-Right Case
+		GreatGrandParent -> right = Parent;
+
+	else if (GrandParent == GreatGrandParent -> left)//Left-Right Case
+		GreatGrandParent -> left = Parent;
+
+	//Rotate the Links
+	Parent -> left = GrandParent;
+	GrandParent -> right = T2;
+
+	//Set T2's parent Link
+	if (T2)
+		T2 -> parent = GrandParent;
+
+	//Set the GrandParent's Parent Link
+	GrandParent -> parent = Parent;
+
+	//Set the Parent's parent link
+	Parent -> parent = GreatGrandParent;
+
+	//Return the current Parent
+	return Parent;
 }
 
-int getHeight(Tree * root) {
-	if (!root)
-		return 0;
-	return root -> height;
+Tree * rotate_right(Tree * GrandParent) {
+	//First Save all the Links that will be manipulated 
+	Tree * GreatGrandParent = GrandParent -> parent;
+	Tree * Parent = GrandParent -> left;
+	Tree * T2 = Parent -> right;
+
+	//Set the GrandParent Link
+	if (!GreatGrandParent) //GreatGrandParent is root
+		root = Parent;
+
+	else if (GrandParent == GreatGrandParent -> left)//Left-Left Case
+		GreatGrandParent -> left = Parent;
+
+	else if (GrandParent == GreatGrandParent -> right)//Right-Left Case
+		GreatGrandParent -> right = Parent;
+
+	//Rotate Links
+	Parent -> right = GrandParent;
+	GrandParent -> left = T2;
+
+	//Set T2's Parent's Link
+	if (T2)
+		T2 -> parent = GrandParent;
+	
+	//Set GrandParent's Parent Link
+	GrandParent -> parent = Parent;
+
+	//Set the Parent's parent Link
+	Parent -> parent = GreatGrandParent;
+
+	//Return the Parent
+	return Parent;
 }
 
-int getBalance(Tree * root) {
-	if (!root)
-		return 0;
-	return getHeight(root -> left) - getHeight(root -> right);
-}
-
-Tree * rotate_left(Tree * x) {
-	Tree * y = x -> right;
-	Tree * T2 = y -> left;
-	y -> left = x;
-	x -> right = T2;
-	x -> height = max(getHeight(x -> left), getHeight(x -> right)) + 1;
-	y -> height = max(getHeight(y -> left), getHeight(y -> right)) + 1;
-	return y;
-}
-
-Tree * rotate_right(Tree * x) {
-	Tree * y = x -> left;
-	Tree * T2 = y -> right;
-	y -> right = x;
-	x -> left = T2;
-	x -> height = max(getHeight(x -> left), getHeight(x -> right)) + 1;
-	y -> height = max(getHeight(y -> left), getHeight(y -> right)) + 1;
-	return y;
-}
-
-Tree * color_flip(Tree * x) {
+Tree * color_flip(Tree * x) {//Flip color when Aunt is Red
 	x -> color = 1;//Parent is red
 	x -> left -> color = x -> right -> color = 0;//Children are black
 	return x;
 }
 
-Tree * color_flip_rotate(Tree * x) {
+Tree * color_flip_rotate(Tree * x) {//Flip color when Aunt is Black
 	x -> color = 0;//Parent is black
-	x -> left -> color = x -> right -> color = 1;//Children are Red
+
+	if (x -> left)
+		x -> left -> color = 1;//Children are Red
+
+	if (x -> right)
+		x -> right -> color = 1;
+
 	return x;
 }
 
-bool sameColor(Tree * root) {
-	return getColor(root) && ((getColor(root -> left)) || (getColor(root -> right)));
-}
-
-Tree * insert_RBTREE(Tree * root, int data) {
-	if (!root) {
-		Tree * new_node = newNode(data);
+Tree * insert_RBTREE_util(Tree * root, Tree * new_node) {
+	if (!root)
 		return new_node;
-	}
-	if (root -> key > data) {//Go left
-		root -> left = insert_RBTREE(root -> left, data);
-		root -> left -> depth = getDepth(root) + 1;
-		if (getDepth(root) == 1)
-			root -> color = 0;
+
+	if (root -> key > new_node -> key) {//Go left
+		root -> left = insert_RBTREE_util(root -> left, new_node);
+		root -> left -> parent = root;//Set the Left Child's Parent Link
 	}
 
-	else if (root -> key < data) {//Go right
-		root -> right = insert_RBTREE(root -> right, data);
-		root -> right -> depth = getDepth(root) + 1;
-		if (getDepth(root) == 1)
-			root -> color = 0;
+	else if (root -> key < new_node -> key) {//Go right
+		root -> right = insert_RBTREE_util(root -> right, new_node);
+		root -> right -> parent = root;//Set the Right Child's Parent Link
 	}
-
 	else//If node is already present, then simply return the root of the present tree
 		return root;
-
-	root -> height = max(getHeight(root -> left),getHeight(root -> right)) + 1;//Update height of all ancestors
-
-	if (getBalance(root) != 0) {
-		if (sameColor(root -> left)) {
-			if(getColor(root->right)) {//If aunt is Red then Color Flip
-				root = color_flip(root);
-				if (getDepth(root) == 1)//If this is the root
-					root -> color = 0;
-			}
-			else {
-				if (data > root -> left -> key) {//Left-Right Case
-					root -> left = rotate_left(root -> left);
-					root = rotate_right(root);
-					root = color_flip_rotate(root);
-				}
-				else if (data < root -> left -> key) {//Left-Left Case
-					root = rotate_right(root);
-					root = color_flip_rotate(root);
-				}
-			}
-		}
-		else if (sameColor(root -> right)) {
-			if(getColor(root->left)) {
-				root = color_flip(root);
-				if (getDepth(root) == 1)//If this is the root
-					root -> color = 0;
-			}
-			else {
-				if (data < root -> right -> key) {//Right-Left Case
-					root -> right = rotate_right(root -> right);
-					root = rotate_left(root);
-					root = color_flip_rotate(root);
-				}
-				else if (data > root -> right -> key) {//Right-Right Case
-					root = rotate_left(root);
-					root = color_flip_rotate(root);
-				}
-			}
-		}
-	}
 
 	return root;
 }
 
+Tree * fix_Violations(Tree * new_node) {
+	Tree * Grandparent;
+	Tree * Parent;
+	while ((new_node != root) && (getColor(new_node) && getColor(new_node -> parent))) {
+		Parent = new_node -> parent;
+		Grandparent = Parent-> parent;
+		//Make two cases per case of aunt, whether she's on left of grandparent or right of grandparent
+		if (Grandparent -> right == Parent) {//Aunt is on left
+			Tree * aunt = Grandparent -> left;
+
+			if ((aunt) && getColor(aunt))//If aunt is red then flip color
+				new_node = color_flip(Grandparent);
+
+			else {//If aunt is black then rotate, two cases - Right-Right and Right-Left
+				if (Parent -> right == new_node) {//Right-Right Case - Rotate Left
+					new_node = rotate_left(Grandparent);
+					new_node = color_flip_rotate(new_node);
+				}
+				else {//Right-Left Case - Rotate Right then Left
+					new_node = rotate_right(Parent);
+					new_node = rotate_left(new_node -> parent);
+					new_node = color_flip_rotate(new_node);
+				}
+			}
+		}
+		else if (Grandparent -> left == Parent) {//Aunt in on right
+			Tree * aunt = Grandparent -> right;
+
+			if ((aunt) && getColor(aunt))//Aunt is red then flip color
+				new_node = color_flip(Grandparent);	
+
+			else {//If aunt is black then rotate, two cases - Left-Left and Left-Right
+				if (Parent -> left == new_node) {//Left-Left Case
+					new_node = rotate_right(Grandparent);
+					new_node = color_flip_rotate(new_node);
+				}
+				else {//Left-Right Case - Rotate Left then Right
+					new_node = rotate_left(Parent);
+					new_node = rotate_right(new_node -> parent);
+					new_node = color_flip_rotate(new_node);
+				}
+			}
+		}	
+	}
+	root -> color = 0;
+	return root;
+}
+
+Tree * insert_RBTREE(int data) {
+	Tree * new_node = newNode(data);
+	root = insert_RBTREE_util(root, new_node);
+	root = fix_Violations(new_node);
+	return root;
+}
+
 int main() {
-	Tree * root = NULL;
-	root = insert_RBTREE(root,3);
-	root = insert_RBTREE(root,1);
-	root = insert_RBTREE(root,5);
-	root = insert_RBTREE(root,7);
-	root = insert_RBTREE(root,6);
-	root = insert_RBTREE(root,8);
-	root = insert_RBTREE(root,9);
-	root = insert_RBTREE(root,10);
+	root = insert_RBTREE(3);
+	root = insert_RBTREE(1);
+	root = insert_RBTREE(5);
+	root = insert_RBTREE(7);
+	root = insert_RBTREE(6);
+	root = insert_RBTREE(8);
+	root = insert_RBTREE(9);
+	root = insert_RBTREE(0);
+	root = insert_RBTREE(2);
+	root = insert_RBTREE(10);
 	PreOrder(root);
 	cout<<endl;
 	return 0;
