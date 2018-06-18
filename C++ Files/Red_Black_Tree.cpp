@@ -169,7 +169,7 @@ Tree * fix_Violations(Tree * new_node) {
 		if (Grandparent -> right == Parent) {//Aunt is on left
 			Tree * aunt = Grandparent -> left;
 
-			if ((aunt) && getColor(aunt))//If aunt is red then flip color
+			if ((aunt) && getColor(aunt))//If Aunt is red then flip color
 				new_node = color_flip(Grandparent);
 
 			else {//If aunt is black then rotate, two cases - Right-Right and Right-Left
@@ -184,13 +184,13 @@ Tree * fix_Violations(Tree * new_node) {
 				}
 			}
 		}
-		else if (Grandparent -> left == Parent) {//Aunt in on right
+		else if (Grandparent -> left == Parent) {//Aunt is on right
 			Tree * aunt = Grandparent -> right;
 
 			if ((aunt) && getColor(aunt))//Aunt is red then flip color
 				new_node = color_flip(Grandparent);	
 
-			else {//If aunt is black then rotate, two cases - Left-Left and Left-Right
+			else {//If Aunt is black then rotate, two cases - Left-Left and Left-Right
 				if (Parent -> left == new_node) {//Left-Left Case
 					new_node = rotate_right(Grandparent);
 					new_node = color_flip_rotate(new_node);
