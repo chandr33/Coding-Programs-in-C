@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 
 using namespace std;
 
@@ -6,6 +7,7 @@ const int SIZE = 26;
 
 typedef struct TrieNode {
 	struct TrieNode * children[SIZE];
+	map<char,struct TrieNode *> table;
 	bool isEndOfWord;
 }Trie;
 
