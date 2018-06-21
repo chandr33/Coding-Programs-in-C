@@ -2,7 +2,9 @@
 #include <map>
 
 using namespace std;
-/* In this implementation of Tries, the endOfWord is marked by a '*' character*/
+/* In this implementation of Tries, the endOfWord is marked by a '*' character.
+   Therefore, the Trie can contain any character except for '*'
+*/
 typedef struct TrieNode {
 	map<char,TrieNode *> table;
 	bool isEndOfWord;
@@ -23,8 +25,8 @@ void insert(Trie * root,string key) {
 	{
 		iter = root_ref -> table.find(key[i]);
 		if (iter == root_ref -> table.end()) {//If character does not exist in the Trie
-			root_ref -> table.erase('*'); //Erase the * entry of the current node's table
-			root_ref -> table[key[i]] = newNode();//Add referene to the new node for the current key
+			root_ref -> table.erase('*'); //Erase the * entry from the current node's table
+			root_ref -> table[key[i]] = newNode();//Add referene of the new node to the current key
 		}
 
 		root_ref = root_ref -> table[key[i]];//Move the pointer ahead 
@@ -49,23 +51,23 @@ bool search(Trie * root, string key) {
 
 bool delete_util(Trie * root, string key, int i, int length) {
 	if (i == length) {
-		if (root -> table.find('*') != root -> table.end()) //If there exists one * value, then delete
+		if (root -> table.find('*') != root -> table.end()) //If reached endOfWord, then delete this node
 			return false;
 		root -> isEndOfWord = false;
 		return true;//If the last node was not empty
 	}
-	if (delete_util(root -> table[key[i]],key,i+1,length))//If the last node was not empty
+	if (delete_util(root -> table[key[i]],key,i+1,length))//If the last node was not empty,then simply return
 		return true;
 	else {
 		root -> table[key[i]] = NULL; //Delete the previous entry
 		root -> table.erase(key[i]); //Clear the current entry from map
 		if (root -> isEndOfWord) {//If the deleted character was an end of word of an another word
-			root -> table['*'] = NULL;
+			root -> table['*'] = NULL;//Set the current node as the last node (denoted by '*')
 			return true;
 		}
 		else
-			if (root -> table.size() < 1) //See if there are any else Non NULL Child Nodes present
-				return false;
+			if (root -> table.size() < 1) //Check if there are any other Non-NULL child node present
+				return false;//If the map is empty, then delete the current node
 	}
 	return true;
 }
