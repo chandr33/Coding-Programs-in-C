@@ -2,7 +2,7 @@
 #include <map>
 
 using namespace std;
-
+/* In this implementation of Tries, the endOfWord is marked by a '*' character*/
 typedef struct TrieNode {
 	map<char,TrieNode *> table;
 	bool isEndOfWord;
