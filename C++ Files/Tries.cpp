@@ -68,8 +68,12 @@ bool delete_util(Trie * root, string key, int i, int length) {
 		return true;
 	else {
 		root -> children[index] = NULL;//Delete the current child
-		if (isEmpty(root))//See if there are any else Non NULL Child Nodes present
-			return false;
+		if (root -> isEndOfWord)//If the Deleted child is the endOfWord for some another word, then don't delete
+			return true;
+		else {
+			if (isEmpty(root))//See if there are any else Non NULL Child Nodes present
+				return false;
+		}
 	}
 	return true;
 }
@@ -78,8 +82,10 @@ void delete_node(Trie * root, string key) {
 	int i = 0;
 	int deleted = 0;
 	if (key.length() > 0) {
-		if (delete_util(root,key,i,key.length()))
-			deleted = 1;
+		if (search(root,key)) {//If the key is present in the trie
+			if (delete_util(root,key,i,key.length()))
+				deleted = 1;
+		}
 	}
 	if (deleted)
 		cout<<"Deleted"<<endl;
@@ -88,13 +94,13 @@ void delete_node(Trie * root, string key) {
 }
 
 int main() {
-	string keys[] = {"the","a","there","answer","any","by","bye","their"};
+	string keys[] = {"b","by","bye","byes","bicycle"};
 	int n = sizeof(keys)/sizeof(keys[0]);
 	Trie * root = newNode();
 	for (int i = 0; i < n; i++)	
 		insert(root,keys[i]);
 
-	delete_node(root,"a");
-	search(root,"any") ? cout<<"Present"<<endl : cout<<"Not Found"<<endl;
+	delete_node(root,"byes");
+	search(root,"bye") ? cout<<"Present"<<endl : cout<<"Not Found"<<endl;
 	return 0;
 }
