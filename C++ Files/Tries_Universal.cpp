@@ -66,7 +66,7 @@ bool delete_util(Trie * root, string key, int i, int length) {
 			return true;
 		}
 		else
-			if (root -> table.size() < 1) //Check if there are any other Non-NULL child node present
+			if (root -> table.size() < 1) //Check if there is any other Non-NULL child node present
 				return false;//If the map is empty, then delete the current node
 	}
 	return true;
