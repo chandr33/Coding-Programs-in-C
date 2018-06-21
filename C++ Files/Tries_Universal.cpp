@@ -61,7 +61,7 @@ bool delete_util(Trie * root, string key, int i, int length) {
 	else {
 		root -> table[key[i]] = NULL; //Delete the previous entry
 		root -> table.erase(key[i]); //Clear the current entry from map
-		if (root -> isEndOfWord) {//If the deleted character was an end of word of an another word
+		if (root -> isEndOfWord) {//If the current entry is an end of word of an another word
 			root -> table['*'] = NULL;//Set the current node as the last node (denoted by '*')
 			return true;
 		}
