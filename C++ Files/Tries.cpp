@@ -26,7 +26,7 @@ void insert(Trie * root,string key) {
 	{
 		index = key[i] - 'a';//Set index as alphabet's Number
 		if (!root_ref -> children[index])//If the characteer is not present
-			root_ref -> children[index] = newNode();//Set the children as the reference to the new node and mark the new node's End Of Word as false
+			root_ref -> children[index] = newNode();//Set the child as the reference to the new node and mark the new node's End Of Word as false
 		root_ref = root_ref -> children[index];
 	}
 	root_ref -> isEndOfWord = true;
@@ -71,7 +71,7 @@ bool delete_util(Trie * root, string key, int i, int length) {
 		if (root -> isEndOfWord)//If the Deleted child is the endOfWord for some another word, then don't delete
 			return true;
 		else {
-			if (isEmpty(root))//See if there are any else Non NULL Child Nodes present
+			if (isEmpty(root)) //Check if there are any other Non-NULL child node present
 				return false;
 		}
 	}
