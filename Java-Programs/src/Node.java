@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.*;
 /* This program serializes and de-serializes a binary tree. The null Node is treated as -1 to serialize and vice-versa.
  * Serialization is done using PreOrder Traversal
