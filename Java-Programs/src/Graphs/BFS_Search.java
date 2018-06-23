@@ -24,7 +24,7 @@ public class BFS_Search {
 		Queue<Integer> q = new LinkedList<>();//Here Queue is an interface which is implemented by the LinkedList class
 		q.add(startVertex);//Add the first vertex to Queue
 		while (!q.isEmpty()) {//Loop till the queue is not empty
-			int frontNode = q.peek();//Save the information for the front head
+			int frontNode = q.peek();//Save the information of the front node of the queue
 			visited[frontNode] = true;//Mark it visited
 			System.out.print(frontNode + " ");//Print the vertex
 			q.remove();//Remove the first visited node
