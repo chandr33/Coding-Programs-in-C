@@ -28,12 +28,30 @@ public class BFS_Search {
 			visited[frontNode] = true;//Mark it visited
 			System.out.print(frontNode + " ");//Print the vertex
 			q.remove();//Remove the visited node
-			for (int adjacencies : adj_list[frontNode]) {//Enqueue all he adjacencies of the visited node
+			for (int adjacencies : adj_list[frontNode]) {//Enqueue all the adjacencies of the visited node
 				if (!visited[adjacencies])//Only add the non-visited adjacencies
 					q.add(adjacencies);
 			}						
 		}
+		System.out.println();
 		
+	}
+	
+	public void DFS_util(boolean [] visited, int vertex) {
+		if (visited[vertex])
+			return;
+		System.out.print(vertex + " ");
+		visited[vertex] = true;
+		for (int adjacency : adj_list[vertex]) {
+			if (!visited[adjacency])
+				DFS_util(visited, adjacency);
+		}
+	}
+	
+	public void DFS(int startVertex) {
+		boolean [] visited = new boolean[numVertices];
+		Arrays.fill(visited, false);
+		DFS_util(visited, startVertex);
 	}
 	public static void main(String[] args) {
 		BFS_Search graph = new BFS_Search(4);
@@ -50,5 +68,6 @@ public class BFS_Search {
 		}
 		
 		graph.BFS(2);
+		graph.DFS(2);
 	}
 }
