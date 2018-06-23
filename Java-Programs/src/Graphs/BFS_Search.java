@@ -27,7 +27,7 @@ public class BFS_Search {
 			int frontNode = q.peek();//Save the information of the front node of the queue
 			visited[frontNode] = true;//Mark it visited
 			System.out.print(frontNode + " ");//Print the vertex
-			q.remove();//Remove the first visited node
+			q.remove();//Remove the visited node
 			for (int adjacencies : adj_list[frontNode]) {//Enqueue all he adjacencies of the visited node
 				if (!visited[adjacencies])//Only add the non-visited adjacencies
 					q.add(adjacencies);
