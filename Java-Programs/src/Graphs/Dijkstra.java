@@ -41,7 +41,7 @@ public class Dijkstra {
 	void compute(int [][] adj_matrix, int startVertex) {
 		boolean [] visited = new boolean[9];//Array for visited nodes
 		int [] distance = new int[9];//Array for distances from source node
-		int [] parent = new int[9];//Array for storing parent vertices of the shortest route
+		int [] parent = new int[9];//Array for storing parent vertex of each node in the shortest path
 		Arrays.fill(distance, INT_MAX);
 		Arrays.fill(visited,false);
 		parent[startVertex] = -1;
