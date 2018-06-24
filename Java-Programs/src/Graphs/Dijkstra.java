@@ -44,7 +44,7 @@ public class Dijkstra {
 		int [] parent = new int[9];//Array for storing parent vertices of the shortest route
 		Arrays.fill(distance, INT_MAX);
 		Arrays.fill(visited,false);
-		Arrays.fill(parent, -1);
+		parent[startVertex] = -1;
 		visited[startVertex] = true;
 		distance[startVertex] = 0;
 		int i = startVertex;
