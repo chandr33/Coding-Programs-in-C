@@ -67,6 +67,7 @@ public class Dijkstra {
 		printDistance(distance,parent,startVertex);
 	}
 	public static void main(String[] args) {
+		long startTime = System.currentTimeMillis(); 
 		int graph[][] = new int[][]{{0, 4, 0, 0, 0, 0, 0, 8, 0},
 					    {4, 0, 8, 0, 0, 0, 0, 11, 0},
 					    {0, 8, 0, 7, 0, 4, 0, 0, 2},
@@ -78,6 +79,9 @@ public class Dijkstra {
 	                                    {0, 0, 2, 0, 0, 0, 6, 7, 0}};
 		
 		Dijkstra d = new Dijkstra();
-		d.compute(graph, 4);
+		d.compute(graph, 8);
+		long stopTime = System.currentTimeMillis();
+		long duration = stopTime - startTime;
+		System.out.printf("Execution Time : %d microseconds\n",duration);
 	}
 }
