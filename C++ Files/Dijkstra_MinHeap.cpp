@@ -11,7 +11,7 @@ using namespace std;
 class MinHeap
 {
 	int capacity;
-	int size = 0;
+	int size;
 public:
 	struct MinHeapNode {
 		int vertex,weight;
@@ -22,6 +22,7 @@ public:
 
 	MinHeap(int V) { 
 		capacity = V;
+		size = 0;
 		minHeap = new MinHeapNode[V];
 	}
 
@@ -45,13 +46,8 @@ public:
 
 	MinHeapNode getRightChild(int index) { return minHeap[(index * 2) + 2]; }
 
-	void swap(int ind_1, int ind_2) {
-		MinHeapNode temp = minHeap[ind_1];
-		minHeap[ind_1] = minHeap[ind_2];
-		minHeap[ind_2] = temp;
-	}
-
-	MinHeapNode extractMin() {//Remove the first element from the array
+	//Removes the first element from the heap and returns it
+	MinHeapNode extractMin() {
 		if (size == 0) throw "Empty Heap";
 		MinHeapNode first = minHeap[0];
 		position_table[minHeap[0].vertex] = size-1;
@@ -62,7 +58,8 @@ public:
 		return first;//Return the first(min) node 
 	}
 
-	void heapifyDown() {//Find the smaller child index, then check if the parent's weight is greater than the smaller child index's weight, if greater then swap and if smaller then break
+	//Finds the smaller child index, then checks if the parent's weight is greater than the smaller child index's weight, if greater then swaps otherwise breaks
+	void heapifyDown() {
 		int index = 0; //Start from the first index
 		while (hasLeftChild(index)) {//Check for the left index first because that's the insertion order ,i.e.(Left then Right)
 			int smallerIndex = getLeftChildIndex(index);//Set the defaulr
@@ -101,7 +98,7 @@ public:
 		heapifyUp(pos);//Balance the heap bottomUp from the position where the adjacent node was present
 	}
 
-	//Swap until all parent nodes are smaller than their children nodes
+	//Swaps until all parent nodes are smaller than their children nodes
 	void heapifyUp(int index) {
 		while (hasParent(index) && (getParent(index).weight > minHeap[index].weight)) {//Check if the parent's weight is greater than the current index's weight
 			position_table[getParent(index).vertex] = index;
@@ -109,6 +106,13 @@ public:
 			swap(getParentIndex(index),index);//If parent's weight is greater than swap parent with current node
 			index = getParentIndex(index);//Move the index to the parent node
 		}
+	}
+
+	//Swaps the structs from the passed indices
+	void swap(int ind_1, int ind_2) {
+		MinHeapNode temp = minHeap[ind_1];
+		minHeap[ind_1] = minHeap[ind_2];
+		minHeap[ind_2] = temp;
 	}
 };
 
@@ -129,12 +133,13 @@ public:
 		parent = new int[V];
 	}
 
-	//Function that populates the adjacency list by connecting both nodes as it is an undurected graph
-	void addEdge(int start, int end, int weight) {//Graph is undirected. Add edge from src -> dest and vice-versa
+	//Populates the adjacency list by connecting both nodes (Undirected Graph)
+	void addEdge(int start, int end, int weight) {//Add edge from src -> dest and vice-versa
 		adj_list[start].push_back(make_pair(end,weight));//Add start->end
 		adj_list[end].push_back(make_pair(start,weight));//Add end->start
 	}
 
+	//Implements Dijkstra's algorithm
 	void compute_dijkstra() {
 		initialize_heap();
 		while (getSize() != 0) {//Loop till there are no nodes in Min-Heap
@@ -163,7 +168,7 @@ public:
 		}
 	}
 
-	//Prints the Current Vertex, Distance from Start Vertex, and the shortest Route from Start Vertex to Current Vertex
+	//Prints the Current Vertex, Distance from Start Vertex, and the Shortest Route from Start Vertex to Current Vertex
 	void printDijkstra(int * dist, int * parent) {
 		cout<<"Vertex"<<" \t\t "<<"Distance"<<" \t  "<<"Path"<<endl;
 		for (int i = 0; i < numVertices; i++)
