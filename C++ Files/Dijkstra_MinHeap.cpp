@@ -4,7 +4,7 @@
 #include <map> 
 #include <cstdlib>
 
-/* USAGE - Enter the Starting Vertex (Start Vertex <= Number of Vertices ,i.e. 9) of the Graph as the first Argument of the Command Line*/
+/* USAGE - Enter the Start Vertex (Start Vertex <= Number of Vertices ,i.e. 9) of the Graph as the first Argument of the Command Line*/
 
 using namespace std;
 
