@@ -3,10 +3,12 @@
 #include <utility>
 #include <map> 
 #include <cstdlib>
+#include <chrono>
 
 /* USAGE - Enter the Start Vertex (Start Vertex <= Number of Vertices ,i.e. 9) of the Graph as the first Argument of the Command Line*/
 
 using namespace std;
+using namespace std::chrono;
 
 class MinHeap
 {
@@ -194,6 +196,8 @@ public:
 };
 
 int main(int argc, char ** argv) {
+	auto start = high_resolution_clock::now();
+
 	if (argc != 2) {
 		cout<<argc<<endl;
 		return 0;
@@ -221,6 +225,10 @@ int main(int argc, char ** argv) {
 	graph -> addEdge(7,8,7);
 
 	graph -> compute_dijkstra();
+
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(stop-start);
+	cout<<"Execution Time : "<<duration.count()<<" microseconds "<<endl;
 
 	return 0;
 }
