@@ -147,7 +147,7 @@ public:
 			list<pair<int,int> > :: iterator iter;//Iterator to go through all adjacencies
 			for (iter = adj_list[node.vertex].begin(); iter != adj_list[node.vertex].end(); iter++) {
 				if (position_table[iter -> first] < getSize())//Check if the node is present in the heap
-					updateDistance(iter -> first,iter -> second, node.weight,dist,parent,node.vertex);//Only update distances for non-visited nodes
+					updateDistance(iter -> first,iter -> second, node.weight,dist,parent,node.vertex);//Only updates distances of non-visited nodes
 			}
 		}
 		printDijkstra(dist,parent);
