@@ -1,5 +1,5 @@
 package Graphs;
-import java.util.*;
+
 /*Finds the shortest path between the pairs of vertices by stopping at intermediate vertices
  * Time Complexity - O(V^3)
  */
@@ -84,7 +84,7 @@ public class FloydWarshall {
 		int dist[][] = new int[graph.length][graph.length];
 		int path[][] = new int[graph.length][graph.length];
 		fw.compute(graph,dist,path,graph.length);
-		fw.printDistance(path,graph.length);
+		fw.printDistance(dist,graph.length);
 		fw.printPath(path,graph.length);
 	}
 }
