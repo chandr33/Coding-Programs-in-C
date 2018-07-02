@@ -5,12 +5,10 @@ import java.util.*;
 //Topological Sort in Directed Acyclic Graph
 public class TopologicalSort {
 	int numVertices;
-	int startVertex;
 	boolean visited[];
 	LinkedList<Integer> adj_list[];
-	public TopologicalSort(int numV, int startVertex) {
+	public TopologicalSort(int numV) {
 		this.numVertices = numV;
-		this.startVertex = startVertex;
 		adj_list = new LinkedList[numV];
 		visited = new boolean[numV];
 		for (int i = 0; i < numV; i++) {
@@ -53,7 +51,7 @@ public class TopologicalSort {
 		System.out.println();
 	}
 	public static void main(String[] args) {
-		TopologicalSort graph = new TopologicalSort(6,5);
+		TopologicalSort graph = new TopologicalSort(6);
 		graph.addEdge(5, 2);
 		graph.addEdge(5, 0);
 		graph.addEdge(0, 4);
