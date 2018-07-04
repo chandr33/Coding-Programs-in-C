@@ -1,9 +1,12 @@
 package Graphs;
+import java.util.*;
 
 public class BoggleSearch {
 	char boggleArray[][];
 	String dictionary[];
 	char node_list[];
+	public static final int ROWS = 3;
+	public static final int COLUMNS = 3;
 	
 	BoggleSearch(char boggleArray[][]) {
 		this.boggleArray = new char[boggleArray.length][boggleArray[0].length];
@@ -55,10 +58,35 @@ public class BoggleSearch {
 		}
 		return found;
 	}
+	//visit neighboring cells through DFS and form all potential words starting with the passed character
+	void traverseArray(char test[][], boolean visited[][], int i, int j, String str) {
+		str += test[i][j];
+		System.out.println(str);
+		visited[i][j] = true;
+		for (int row = i - 1; row <= i+1 && row < ROWS; row++) {
+			for (int col = j - 1; col <= j+1 && col < COLUMNS; col++) {
+				if (row >= 0 && col >= 0 && !visited[row][col]) {
+					traverseArray(test, visited, row, col, str);
+				}
+			}
+		}
+		visited[i][j] = false;
+	}
 	
 	public static void main(String[] args) {
-		char boggleArray[][] = new char[][] {{'G','I','Z'},{'U','E','K'},{'Q','S','E'}};
+		char boggleArray[][] = new char[][] {{'G','I','Z'},
+											 {'U','E','K'},
+											 {'Q','S','E'}};
 		BoggleSearch word = new BoggleSearch(boggleArray);
-		word.compute();
+		//word.compute();
+		
+		boolean visited[][] = new boolean[BoggleSearch.ROWS][BoggleSearch.COLUMNS];
+		for (int i = 0; i < visited.length; i++) {
+			for (int j = 0; j < visited[i].length; j++) {
+				visited[i][j] = false;
+			}
+		}
+		String str = "";
+		word.traverseArray(boggleArray, visited, 0, 0, str);
 	}
 }
