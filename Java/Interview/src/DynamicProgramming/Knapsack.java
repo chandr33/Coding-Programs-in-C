@@ -1,6 +1,6 @@
 package DynamicProgramming;
 import java.util.*;
-public class KnapSack {
+public class Knapsack {
 	
 	static int compute(int val[], int weight[], int maxWeight) {
 		int index = val.length - 1;

@@ -24,7 +24,7 @@ public class MaximumProductCutting {
 	}
 	
 	public static void main(String[] args) {
-		int input = 150;
+		int input = 10;
 		System.out.println(MaxProduct(input));
 	}
 }

@@ -22,7 +22,6 @@ public class StockProfit {
 	}
 	public static void main(String[] args) {
 		int arr[] = {1,1,1,22,20,32};
-		int arr2[] = {100, 180, 260, 310, 40, 535, 695};
 		maxProfit(arr);
 	}
 }
